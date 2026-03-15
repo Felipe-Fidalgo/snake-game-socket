@@ -9,11 +9,21 @@
   </head>
   <body>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <h1>JOGO DA COBRINHA</h1>
+    <div class="score-container" style="display: flex; justify-content: center; gap: 40px; margin-bottom: 20px;">
+      <div class="score-box" style="background: rgb(143, 255, 106); padding: 10px 20px; border-radius: 8px; font-weight: bold;">
+        Jogador 1: <span id="score1">0</span>
+      </div>
+      <div class="score-box" style="background: rgb(143, 255, 206); padding: 10px 20px; border-radius: 8px; font-weight: bold;">
+        Jogador 2: <span id="score2">0</span>
+      </div>
+    </div>
     <canvas id="stage" width="600" height="600"></canvas>
+
     <script type="text/javascript">
-      const localhost = "https://snakemult.herokuapp.com:5000";
-      var socket = io(localhost);
+      const serverUrl = window.location.origin;
+      var socket = io(serverUrl);
 
       window.onload = function () {
         //inicia a pagina e executa o game
@@ -87,11 +97,11 @@
           ctx.fillStyle = "rgb(143, 255, 106)"; //cor da cobra
 
           for (var i = 0; i < trail.length; i++) {
-            ctx.fillRect(trail[i].x * tp, trail[i].y * tp, tp - 1, tp - 1); //pinta o trail"rastro" da posição i pintando assim como a maçã
+            ctx.fillRect(trail[i].x * tp, trail[i].y * tp, tp - 1, tp - 1);
             if (trail[i].x == px && trail[i].y == py) {
-              //verificação - Se a posição trail for igual a posição x
               vx = vy = 0;
               tail = 5;
+              px = 10; py = 15;
             }
           }
 
@@ -108,14 +118,14 @@
           
           ctx.fillStyle = "rgb(143, 255, 206)"; //cor da cobra
           for (var i = 0; i < trail2.length; i++) {
-            ctx.fillRect(trail2[i].x * tp, trail2[i].y * tp, tp - 1, tp - 1); //pinta o trail2"rastro" da posição i pintando assim como a maçã
+            ctx.fillRect(trail2[i].x * tp, trail2[i].y * tp, tp - 1, tp - 1);
             if (trail2[i].x == px2 && trail2[i].y == py2) {
-              //verificação - Se a posição trail for igual a posição x
-              vx = vy = 0;
+              vx2 = vy2 = 0;
               tail2 = 5;
+              px2 = 15; py2 = 20;
             }
           }
-          trail.push({ x: px2, y: py2 });
+          trail2.push({ x: px2, y: py2 });
           while (trail2.length > tail2) {
             trail2.shift();
           }
@@ -124,9 +134,13 @@
             ax = Math.floor(Math.random() * qp);
             ay = Math.floor(Math.random() * qp);
           }
+
+          document.getElementById('score1').innerText = (tail - 5);
+          document.getElementById('score2').innerText = (tail2 - 5);
         }
 
         function pushIO(data) {
+
           console.log("data: " + data);
 
           switch (data) {
