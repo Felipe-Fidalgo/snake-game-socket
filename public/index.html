@@ -1,220 +1,28 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Meu primeiro game</title>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jogo da Cobrinha Multi</title>
     <link rel="stylesheet" type="text/css" href="estilo.css" />
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.js"></script>
-  </head>
-  <body>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
     <h1>JOGO DA COBRINHA</h1>
-    <canvas id="stage" width="600" height="600"></canvas>
-    <script type="text/javascript">
-      const localhost = "https://snakemult.herokuapp.com:5000";
-      var socket = io(localhost);
+    
+    <div id="menu">
+        <button id="single">Single Player</button>
+        <br><br>
+        <button id="coop">Cooperative</button>
+    </div>
 
-      window.onload = function () {
-        //inicia a pagina e executa o game
+    <div id="score-container" style="display: none;">
+        <div id="score1" style="color: rgb(143, 255, 106);">P1 Score: 0</div>
+        <div id="score2" style="color: rgb(143, 255, 206); display: none;">P2 Score: 0</div>
+    </div>
 
-        socket.on("fs-share", function (data) {
-          pushIO(data);
-        });
-
-        var stage = document.getElementById("stage"); //pegando o elemento do html
-        var ctx = stage.getContext("2d"); //pegando context do stage - onde tem parte grafica do game
-        document.addEventListener("keydown", keyPush);
-        setInterval(game, 60); //define um intervalo para a função ser chamada no caso o game cada 80milesegundos
-
-        const vel = 1; //velociade - quantas casa andar
-
-        var vx = (vy = 0); //vai começar com a velocidade x e y igual a 0
-        var vx2 = (vy2 = 0); //vai começar com a velocidade x e y igual a 0
-
-        var px2 = 15;
-        var py2 = 20; // sempre começara no ponto 10,15
-
-        var px = 10;
-        var py = 15; // sempre começara no ponto 10,15
-        var tp = 10; //tamanho da pessa
-        var qp = 60; //quantidades de pessas no tabuleiro
-        var ax = (ay = Math.floor(Math.random() * qp)); //onde estara a maçã apple x e y
-
-        var trail2 = []; //trail = rastro - vazio pois nao tem elemento mp rastro
-        tail2 = 5; //tamanho da calda
-        var trail = []; //trail = rastro - vazio pois nao tem elemento mp rastro
-        tail = 5; //tamanho da calda
-        function game() {
-          //criado para que não seja necessario pintar a tela toda vez que iniciar o game
-          px += vx; //recebe a que ela esta e a da velociade no caso 0 permanece parada
-          py += vy; //permanece parada até o valor mudar
-          if (px < 0) {
-            //toda vez que chegar a borda o objeto ira para o canto contrario ao que entrou
-            px = qp - 1; //se chegou a zero ela deve ir para o final
-          }
-          if (px > qp - 1) {
-            px = 0;
-          }
-          if (py < 0) {
-            py = qp - 1;
-          }
-          if (py > qp - 1) {
-            py = 0;
-          }
-          px2 += vx2;
-          py2 += vy2;
-          if (px2 < 0) {
-            px2 = qp - 1;
-          }
-          if (px2 > qp - 1) {
-            px2 = 0;
-          }
-          if (py2 < 0) {
-            py2 = qp - 1;
-          }
-          if (py2 > qp - 1) {
-            py2 = 0;
-          }
-
-          ctx.fillStyle = "black"; //estilo de preenchimento do context
-          //define o estilo de preenchimento
-          ctx.fillRect(0, 0, stage.width, stage.height); //pinta o context - "pinta o stage" começamdo do ponto 0,0
-
-          ctx.fillStyle = "red"; //implementação da maçã
-          ctx.fillRect(ax * tp, ay * tp, tp, tp); //orientação da maçã
-
-          ctx.fillStyle = "rgb(143, 255, 106)"; //cor da cobra
-
-          for (var i = 0; i < trail.length; i++) {
-            ctx.fillRect(trail[i].x * tp, trail[i].y * tp, tp - 1, tp - 1); //pinta o trail"rastro" da posição i pintando assim como a maçã
-            if (trail[i].x == px && trail[i].y == py) {
-              //verificação - Se a posição trail for igual a posição x
-              vx = vy = 0;
-              tail = 5;
-            }
-          }
-
-          trail.push({ x: px, y: py });
-          while (trail.length > tail) {
-            trail.shift();
-          }
-
-          if (ax == px && ay == py) {
-            tail++;
-            ax = Math.floor(Math.random() * qp);
-            ay = Math.floor(Math.random() * qp);
-          }
-          
-          ctx.fillStyle = "rgb(143, 255, 206)"; //cor da cobra
-          for (var i = 0; i < trail2.length; i++) {
-            ctx.fillRect(trail2[i].x * tp, trail2[i].y * tp, tp - 1, tp - 1); //pinta o trail2"rastro" da posição i pintando assim como a maçã
-            if (trail2[i].x == px2 && trail2[i].y == py2) {
-              //verificação - Se a posição trail for igual a posição x
-              vx = vy = 0;
-              tail2 = 5;
-            }
-          }
-          trail.push({ x: px2, y: py2 });
-          while (trail2.length > tail2) {
-            trail2.shift();
-          }
-          if (ax == px2 && ay == py2) {
-            tail2++;
-            ax = Math.floor(Math.random() * qp);
-            ay = Math.floor(Math.random() * qp);
-          }
-        }
-
-        function pushIO(data) {
-          console.log("data: " + data);
-
-          switch (data) {
-            case 65: //Left - esqueda tecla
-              vx = -vel;
-              vy = 0;
-              break;
-            case 87: //up - pra cima tecla
-              vx = 0;
-              vy = -vel;
-              break;
-            case 68: //right - direita tecla
-              vx = vel;
-              vy = 0;
-              break;
-            case 83: //down - baixo tecla
-              vx = 0;
-              vy = vel;
-              break;
-            case 74: //Left - esqueda tecla
-              vx2 = -vel;
-              vy2 = 0;
-              break;
-            case 73: //up - pra cima tecla
-              vx2 = 0;
-              vy2 = -vel;
-              break;
-            case 76: //right - direita tecla
-              vx2 = vel;
-              vy2 = 0;
-              break;
-            case 75: //down - baixo tecla
-              vx2 = 0;
-              vy2 = vel;
-              break;
-            default:
-              break;
-          }
-        }
-
-        function keyPush(event) {
-          console.log(event.keyCode);
-          switch (event.keyCode) {
-            case 65: //Left - esqueda tecla
-              socket.emit("comand", 65);
-              vx = -vel;
-              vy = 0;
-              break;
-            case 87: //up - pra cima tecla
-              socket.emit("comand", 87);
-              vx = 0;
-              vy = -vel;
-              break;
-            case 68: //right - direita tecla
-              socket.emit("comand", 68);
-              vx = vel;
-              vy = 0;
-              break;
-            case 83: //down - baixo tecla
-              socket.emit("comand", 83);
-              vx = 0;
-              vy = vel;
-              break;
-            case 74: //Left - esqueda tecla
-              socket.emit("comand", 74);
-              vx2 = -vel;
-              vy2 = 0;
-              break;
-            case 73: //up - pra cima tecla
-              socket.emit("comand", 73);
-              vx2 = 0;
-              vy2 = -vel;
-              break;
-            case 76: //right - direita tecla
-              socket.emit("comand", 76);
-              vx2 = vel;
-              vy2 = 0;
-              break;
-            case 75: //down - baixo tecla
-              socket.emit("comand", 75);
-              vx2 = 0;
-              vy2 = vel;
-              break;
-            default:
-              break;
-          }
-        }
-      };
-    </script>
-  </body>
+    <canvas id="stage" width="600" height="600" style="display: none;"></canvas>
+    
+    <script src="/js/game.js"></script>
+</body>
 </html>

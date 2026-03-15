@@ -1,14 +1,26 @@
-# Jogo_da_cobrinha
+# Jogo da Cobrinha Multiplayer
 
-Um dos primeiros projetos que desenvolvi no começo de meus aprendizados no desenvolvimento web, com o tempo pensei em adicionar novas funcionalidades, sendo essas o segundo jogador e a possibilidade de jogar online
+Este é um jogo da cobrinha multiplayer utilizando Node.js, Express e Socket.io.
 
-<div>
-<img alt="javascript" src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
-<img alt="css" src="https://img.shields.io/badge/CSS-239120?&style=for-the-badge&logo=css3&logoColor=white" />
-<img alt="node" src="https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white"></img>
-<img alt="html" src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white"></img>
-</div>
+## Como Iniciar
 
-![snake](https://user-images.githubusercontent.com/49208754/195961658-56bf0342-c040-469f-a8e7-119d7f167e5a.png)
+1. Instale as dependências:
+   ```bash
+   npm install
+   ```
 
+2. Inicie o servidor:
+   ```bash
+   npm start
+   ```
 
+3. Acesse no navegador:
+   - Jogo: `http://localhost:5000`
+   - Controle Remoto: `http://localhost:5000/control`
+
+## Estrutura do Projeto
+
+- `public/`: Arquivos estáticos (HTML, CSS, JS do frontend)
+- `src/`: Código fonte do servidor (Node.js)
+- `src/server.js`: Ponto de entrada da aplicação
+- `src/routes/`: Definição das rotas Express
