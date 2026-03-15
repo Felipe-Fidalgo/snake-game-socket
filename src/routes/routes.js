@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res) => {
-    res.render('./../public/index.html');
+    res.render('index.html');
 });
+
 router.get('/control', (req, res) => {
-    res.render('./../public/controle/index.html');
+    res.render('controle/index.html');
 });
 
 module.exports = router;

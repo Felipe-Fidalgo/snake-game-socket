@@ -4,6 +4,7 @@
   "description": "Um dos primeiros projetos que desenvolvi no começo de meus aprendizados no desenvolvimento web",
   "main": "script.js",
   "scripts": {
+    "start": "node src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
