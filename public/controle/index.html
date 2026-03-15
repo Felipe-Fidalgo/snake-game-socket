@@ -17,8 +17,8 @@
     <button onclick="keyPush(83)">Baixo</button>
 
     <script type="text/javascript">
-      const localhost = "https://snakemult.herokuapp.com:5000";
-      var socket = io(localhost);
+      const serverUrl = window.location.origin;
+      var socket = io(serverUrl);
 
     document.addEventListener("keydown", keyPush);
       function keyPush(event) {

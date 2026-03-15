@@ -1,34 +1,66 @@
-body{
-    font-family: Arial, Helvetica, sans-serif;
-}
-button{
-    border: 0px ;
-    width: 100px;
-    height: 50px;
-    color: #fff;
-    background-color: rgb(143, 255, 106);
-}
-h1{
-    background: rgb(143, 255, 106);
-    border-radius: 10px;
-    width: 600px;
-    height: 45px;
-    margin: auto;
-    margin-bottom: 10px;
-}
-body{
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
-    background: #2f2f2f;
+    background: #1a1a2e;
+    color: white;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-section{
-    background: gray;
+h1 {
+    background: linear-gradient(90deg, rgb(143, 255, 106) 0%, rgb(143, 255, 206) 100%);
+    border-radius: 12px;
+    width: 600px;
+    height: 50px;
+    line-height: 50px;
+    margin: 0 auto 20px auto;
+    color: #1a1a2e;
+    font-weight: 800;
+    text-transform: uppercase;
+    box-shadow: 0 4px 15px rgba(143, 255, 106, 0.3);
+}
+button {
+    border: none;
+    border-radius: 8px;
+    width: 120px;
+    height: 50px;
+    color: #1a1a2e;
+    background-color: rgb(143, 255, 106);
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 5px;
+}
+button:hover {
+    background-color: rgb(123, 235, 86);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(143, 255, 106, 0.4);
+}
+section {
+    background: #16213e;
     border-radius: 10px;
     font: normal 20px Arial;
-    padding-bottom: 15px;
+    padding: 20px;
+    margin-top: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
-input{
+input {
     border-radius: 5px;
+    padding: 10px;
+    border: 1px solid #0f3460;
+    background: #1a1a2e;
+    color: white;
 }
-canvas{
-    border: 1px solid rgb(143, 255, 106);
+canvas {
+    border: 4px solid #0f3460;
+    border-radius: 8px;
+    box-shadow: 0 0 20px rgba(15, 52, 96, 0.8);
+    background-color: #000;
+}
+.score-box {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    color: #1a1a2e;
 }
